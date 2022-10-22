@@ -29,7 +29,8 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = client.authStore.onChange(user => {
-      setCurrentUser(user);
+      console.log(client.authStore.model);
+      setCurrentUser(client.authStore.model);
     }, true);
     return unsubscribe;
   }, []);
