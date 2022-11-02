@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import client from "../pbconn";
 import { useAuth } from "../contexts/AuthContext";
+import Layout from "./Layout";
 
 export default function SearchPlate() {
   const plate = React.useRef();
@@ -128,6 +129,7 @@ export default function SearchPlate() {
   }
 
   return (
+    <Layout>
     <Container>
       <Row>
         <Col sm>
@@ -239,5 +241,6 @@ export default function SearchPlate() {
         )}
       </Row>
     </Container>
+    </Layout>
   );
 }
