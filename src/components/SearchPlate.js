@@ -35,6 +35,14 @@ export default function SearchPlate() {
       setProvinces(provinces);
     }
     getProvinces();
+    getLocation();
+    //get location every 5 seconds
+    setInterval(() => {
+      getLocation();
+    }, 5000);
+    
+  }, []);
+  async function getLocation(){
     //user location
     if (navigator?.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
@@ -44,8 +52,7 @@ export default function SearchPlate() {
         }
       });
     }
-  }, []);
-
+  }
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
