@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import client from "../pbconn";
 import { useAuth } from "../contexts/AuthContext";
+import Layout from "./Layout";
 
 export default function SearchPlate() {
   const plate = React.useRef();
@@ -34,6 +35,14 @@ export default function SearchPlate() {
       setProvinces(provinces);
     }
     getProvinces();
+    getLocation();
+    //get location every 5 seconds
+    setInterval(() => {
+      getLocation();
+    }, 5000);
+    
+  }, []);
+  async function getLocation(){
     //user location
     if (navigator?.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
@@ -43,8 +52,7 @@ export default function SearchPlate() {
         }
       });
     }
-  }, []);
-
+  }
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -128,13 +136,11 @@ export default function SearchPlate() {
   }
 
   return (
+    <Layout>
     <Container>
       <Row>
-        <Col sm>
-          <Button onClick={logout} className="w-100">
-            Logout
-          </Button>
-          <Card style={{ padding: "10px" }}>
+        <Col md={6}>
+          <Card style={{ padding: "10px", margin: "10px" }}>
             <Card.Body>
               <h2 className="text-center mb-4">Search Plate</h2>
             </Card.Body>
@@ -167,8 +173,8 @@ export default function SearchPlate() {
           </Card>
         </Col>
         {results && (
-          <Col sm>
-            <Card style={{ padding: "10px" }}>
+          <Col md={6}>
+            <Card style={{ padding: "10px", margin: "10px"}}>
               <Card.Body>
                 <h2 className="text-center mb-4">File complaint</h2>
                 <Form onSubmit={handleComplaint}>
@@ -182,7 +188,7 @@ export default function SearchPlate() {
                   </FormGroup>
                   <Button
                     disabled={complaintsLoading}
-                    className="w-100"
+                    className="w-100 mt-3"
                     type="submit"
                   >
                     File Complaint
@@ -197,8 +203,8 @@ export default function SearchPlate() {
       <Row>
         {results && (
           <>
-            <Col>
-              <Card style={{ padding: "10px" }}>
+            <Col md={6} >
+              <Card style={{ padding: "10px" , margin: "10px"}}>
                 <Card.Body>
                   <h2 className="text-center mb-4">Results</h2>
                   <>
@@ -208,8 +214,8 @@ export default function SearchPlate() {
                 </Card.Body>
               </Card>
             </Col>
-            <Col>
-              <Card style={{ padding: "10px" }}>
+            <Col md={6}>
+              <Card style={{ padding: "10px", margin: "10px"}}>
                 <Card.Body>
                   <h2 className="text-center mb-4">Complaints</h2>
                   <>
@@ -239,5 +245,6 @@ export default function SearchPlate() {
         )}
       </Row>
     </Container>
+    </Layout>
   );
 }
